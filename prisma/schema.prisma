@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// USERS
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      UserRole @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blogs    Blog[]
+  projects Project[]
+}
+
+/// BLOG
+model Blog {
+  id          String     @id @default(uuid()) @db.Uuid
+  title       String
+  slug        String     @unique
+  content     String
+  tags        String[]
+  coverImage  String?
+  featured    Boolean    @default(false)
+  viewCount   Int        @default(0)
+  status      BlogStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  authorId   String     @db.Uuid
+  author     User       @relation(fields: [authorId], references: [id])
+  categories Category[] @relation("BlogCategories")
+}
+
+/// PROJECTS 
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String?       @unique
+  description String
+  imageUrl    String?
+  projectUrl  String?
+  liveUrl     String?
+  tags        String[]
+  featured    Boolean       @default(false)
+  status      ProjectStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  authorId   String
+  author     User              @relation(fields: [authorId], references: [id])
+  categories ProjectCategory[] @relation("ProjectCategories")
+}
+
+/// CATEGORIES FOR BLOG
+model Category {
+  id          String    @id @db.Uuid
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  deletedAt   DateTime?
+  blogs       Blog[]    @relation("BlogCategories")
+}
+
+/// CATEGORIES FOR PROJECTS
+model ProjectCategory {
+  id          String    @id @db.Uuid
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  deletedAt   DateTime?
+  projects    Project[] @relation("ProjectCategories")
+}
+
+/// ENUMS
+enum UserRole {
+  USER
+  ADMIN
+  EDITOR
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}

@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../config/db";
 
-const createCategory = async (name: string) => {
-  const category = await prisma.category.create({ data: { name } });
+const createCategory = async (data: Prisma.CategoryCreateInput) => {
+  const category = await prisma.category.create({ data });
   return category;
 };
 const getCategory = async (id: string) => {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import validateRequest from "../../middlewares/validateRequest";
-import { createUserSchema } from "./user.validation";
+import { createUserSchema, updateUserSchema } from "./user.validation";
 import { UserController } from "./user.controller";
 
 const router = Router();
@@ -11,7 +11,7 @@ router.get("/", UserController.getUsers);
 router.get("/:id", UserController.getUser);
 router.put(
   "/:id",
-  validateRequest(createUserSchema),
+  validateRequest(updateUserSchema),
   UserController.updateUser
 );
 router.delete("/:id", UserController.deleteUser);

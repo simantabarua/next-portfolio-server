@@ -7,9 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// USERS
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid()) @db.Uuid
   email     String   @unique
   password  String
   role      UserRole @default(ADMIN)
@@ -20,7 +19,6 @@ model User {
   projects Project[]
 }
 
-/// BLOG
 model Blog {
   id          String     @id @default(uuid()) @db.Uuid
   title       String
@@ -43,7 +41,7 @@ model Blog {
 
 /// PROJECTS 
 model Project {
-  id          String        @id @default(cuid())
+  id          String        @id @default(uuid()) @db.Uuid
   title       String
   slug        String?       @unique
   description String
@@ -57,29 +55,29 @@ model Project {
   updatedAt   DateTime      @updatedAt
   deletedAt   DateTime?
 
-  authorId   String
+  authorId   String            @db.Uuid
   author     User              @relation(fields: [authorId], references: [id])
   categories ProjectCategory[] @relation("ProjectCategories")
 }
 
 /// CATEGORIES FOR BLOG
 model Category {
-  id          String    @id @db.Uuid
+  id          String    @id @default(uuid()) @db.Uuid
   name        String    @unique
   description String?
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
   blogs       Blog[]    @relation("BlogCategories")
 }
 
 /// CATEGORIES FOR PROJECTS
 model ProjectCategory {
-  id          String    @id @db.Uuid
+  id          String    @id @default(uuid()) @db.Uuid
   name        String    @unique
   description String?
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
   projects    Project[] @relation("ProjectCategories")
 }

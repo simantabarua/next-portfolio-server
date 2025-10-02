@@ -8,15 +8,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  email     String   @unique
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
   password  String
-  role      UserRole @default(ADMIN)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  blogs    Blog[]
-  projects Project[]
+  role      UserRole  @default(ADMIN)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  blogs     Blog[]
+  projects  Project[]
 }
 
 model Blog {
@@ -33,31 +32,29 @@ model Blog {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   deletedAt   DateTime?
-
-  authorId   String     @db.Uuid
-  author     User       @relation(fields: [authorId], references: [id])
-  categories Category[] @relation("BlogCategories")
+  authorId    String     @db.Uuid
+  author      User       @relation(fields: [authorId], references: [id])
+  categories  Category[] @relation("BlogCategories")
 }
 
 /// PROJECTS 
 model Project {
-  id          String        @id @default(uuid()) @db.Uuid
+  id          String            @id @default(uuid()) @db.Uuid
   title       String
-  slug        String?       @unique
+  slug        String?           @unique
   description String
   imageUrl    String?
   projectUrl  String?
   liveUrl     String?
   tags        String[]
-  featured    Boolean       @default(false)
-  status      ProjectStatus @default(PUBLISHED)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  featured    Boolean           @default(false)
+  status      ProjectStatus     @default(PUBLISHED)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   deletedAt   DateTime?
-
-  authorId   String            @db.Uuid
-  author     User              @relation(fields: [authorId], references: [id])
-  categories ProjectCategory[] @relation("ProjectCategories")
+  authorId    String            @db.Uuid
+  author      User              @relation(fields: [authorId], references: [id])
+  categories  ProjectCategory[] @relation("ProjectCategories")
 }
 
 /// CATEGORIES FOR BLOG

@@ -7,7 +7,7 @@ const app = express();
 
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://ridenest-dev.web.app"]
+    ? ["https://next-portfolio-server.vercel.app/"]
     : ["http://localhost:3000"];
 
 app.use(express.json());

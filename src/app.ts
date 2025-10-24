@@ -5,16 +5,11 @@ import { router } from "./routes";
 
 const app = express();
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["https://next-portfolio-server.vercel.app/"]
-    : ["http://localhost:3000"];
-
 app.use(express.json());
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );

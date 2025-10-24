@@ -11,8 +11,12 @@ const getBlogs = async () => {
   const blogs = await prisma.blog.findMany();
   return blogs;
 };
-const getBlog = async (id: string) => {
-  const blog = await prisma.blog.findUnique({ where: { id } });
+const getBlog = async (slug: string) => {
+  const blog = await prisma.blog.findUnique({
+    where: {
+      slug: slug,
+    },
+  });
   return blog;
 };
 

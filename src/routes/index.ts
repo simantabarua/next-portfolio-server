@@ -4,6 +4,7 @@ import { UserRoutes } from "../module/user/user.route";
 import { CategoryRoutes } from "../module/category/category.route";
 import { ProjectRoutes } from "../module/project/project.route";
 import { ProjectCategoryRoutes } from "../module/projectCategory/projectCategory.route";
+import { AuthRoutes } from "../module/auth/auth.route";
 
 export const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: "/projectCategory",
     route: ProjectCategoryRoutes,
+  },
+  {
+    path: "/auth",
+    route: AuthRoutes,
   },
 ];
 
